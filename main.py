@@ -1,4 +1,3 @@
-
 import os
 import json
 import logging
@@ -7,6 +6,7 @@ import requests
 import openai
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # <- Debug: muestra el token al iniciar
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
