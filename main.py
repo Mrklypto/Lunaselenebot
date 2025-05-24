@@ -4,13 +4,12 @@ import json
 import logging
 from flask import Flask, request
 import requests
-from openai import OpenAI
-from elevenlabs import generate, play, save
-from elevenlabs.client import ElevenLabs
+import openai
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
+OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -30,33 +29,44 @@ def telegram_webhook():
     if not chat_id or not text:
         return "ok"
 
-    # Determinar si debe responder con voz
     use_voice = text.strip().endswith("xx")
     user_input = text.strip().rstrip("x").rstrip()
 
-    # Crear prompt con personalidad
     prompt = personality + [{"role": "user", "content": user_input}]
 
-    # Llamar a OpenAI para generar respuesta
-    openai = OpenAI()
-    completion = openai.chat.completions.create(
+    openai.api_key = OPENAI_KEY
+    completion = openai.ChatCompletion.create(
         model="gpt-4",
         messages=prompt,
         temperature=0.8,
     )
-    reply = completion.choices[0].message.content
+    reply = completion["choices"][0]["message"]["content"]
 
     if use_voice:
-        # Generar voz con ElevenLabs
-        client = ElevenLabs(api_key=ELEVEN_KEY)
-        audio = client.generate(text=reply, voice=VOICE_ID, model="eleven_monolingual_v1")
-        path = "output.mp3"
-        save(audio, path)
-        send_voice(chat_id, path)
+        voice_path = generate_audio(reply)
+        send_voice(chat_id, voice_path)
     else:
         send_message(chat_id, reply)
 
     return "ok"
+
+def generate_audio(text):
+    url = "https://api.elevenlabs.io/v1/text-to-speech/" + VOICE_ID
+    headers = {
+        "xi-api-key": ELEVEN_KEY,
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "text": text,
+        "model_id": "eleven_monolingual_v1",
+        "voice_settings": {"stability": 0.5, "similarity_boost": 0.75}
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+    path = "output.mp3"
+    with open(path, "wb") as f:
+        f.write(response.content)
+    return path
 
 def send_message(chat_id, text):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
