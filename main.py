@@ -18,10 +18,14 @@ logging.basicConfig(level=logging.INFO)
 with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
     personality = json.load(f)
 
-# ✅ NUEVA RUTA FIJA PARA WEBHOOK
-@app.route("/webhook", methods=["POST"])
+# ✅ Ruta del webhook modificada para aceptar GET + POST
+@app.route("/webhook", methods=["GET", "POST"])
 def telegram_webhook():
-    print("✅ Recibido POST de Telegram")
+    print("✅ Webhook recibido:", request.method)  # Debug: muestra si llega GET o POST
+
+    if request.method == "GET":
+        return "Webhook activo"
+
     data = request.json
     message = data.get("message", {})
     text = message.get("text", "")
