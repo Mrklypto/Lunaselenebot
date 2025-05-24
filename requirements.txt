@@ -1,5 +1,4 @@
-
-flask
-requests
-openai
-elevenlabs
+flask==3.1.1
+requests==2.32.3
+openai==1.23.2
+elevenlabs==2.1.0
