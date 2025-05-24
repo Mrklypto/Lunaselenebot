@@ -6,7 +6,7 @@ import requests
 import openai
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug: muestra el token al iniciar
+print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
@@ -18,10 +18,10 @@ logging.basicConfig(level=logging.INFO)
 with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
     personality = json.load(f)
 
-# Ruta para webhook de Telegram
-@app.route(f"/{TELEGRAM_TOKEN}", methods=["POST"])
+# ✅ NUEVA RUTA FIJA PARA WEBHOOK
+@app.route("/webhook", methods=["POST"])
 def telegram_webhook():
-    print("✅ Recibido POST de Telegram")  # <-- Confirmación directa de que llegó el mensaje
+    print("✅ Recibido POST de Telegram")
     data = request.json
     message = data.get("message", {})
     text = message.get("text", "")
