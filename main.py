@@ -5,15 +5,19 @@ from flask import Flask, request
 import requests
 from openai import OpenAI
 
+# 🔥 Eliminar proxies que rompen el constructor de OpenAI en v1.23.2+
+os.environ.pop("HTTP_PROXY", None)
+os.environ.pop("HTTPS_PROXY", None)
+
 # Variables de entorno
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
-print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug
+print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)
 
-# Cliente OpenAI sin 'proxies'
+# Cliente de OpenAI
 client = OpenAI(api_key=OPENAI_KEY)
 
 # Flask setup
@@ -24,10 +28,9 @@ logging.basicConfig(level=logging.INFO)
 with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
     personality = json.load(f)
 
-# Webhook
 @app.route("/webhook", methods=["GET", "POST"])
 def telegram_webhook():
-    print("✅ Webhook recibido:", request.method)
+    logging.info(f"✅ Webhook recibido: {request.method}")
 
     if request.method == "GET":
         return "Webhook activo"
@@ -45,19 +48,24 @@ def telegram_webhook():
 
     prompt = personality + [{"role": "user", "content": user_input}]
 
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=prompt,
-        temperature=0.8
-    )
-    reply = response.choices[0].message.content
+    try:
+        completion = client.chat.completions.create(
+            model="gpt-4",
+            messages=prompt,
+            temperature=0.8
+        )
+        reply = completion.choices[0].message.content
 
-    if use_voice:
-        voice_path = generate_audio(reply)
-        send_voice(chat_id, voice_path)
-    else:
-        send_message(chat_id, reply)
+        if use_voice:
+            voice_path = generate_audio(reply)
+            send_voice(chat_id, voice_path)
+        else:
+            send_message(chat_id, reply)
 
+    except Exception as e:
+        logging.exception("❌ Error al generar respuesta:")
+        send_message(chat_id, "Lo siento, hubo un error generando la respuesta.")
+    
     return "ok"
 
 def generate_audio(text):
@@ -69,7 +77,10 @@ def generate_audio(text):
     payload = {
         "text": text,
         "model_id": "eleven_monolingual_v1",
-        "voice_settings": {"stability": 0.5, "similarity_boost": 0.75}
+        "voice_settings": {
+            "stability": 0.5,
+            "similarity_boost": 0.75
+        }
     }
 
     response = requests.post(url, headers=headers, json=payload)
