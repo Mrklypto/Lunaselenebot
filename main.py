@@ -5,7 +5,7 @@ from flask import Flask, request
 import requests
 from openai import OpenAI
 
-# 🔥 Eliminar proxies que rompen el constructor de OpenAI en v1.23.2+
+# 🔥 Eliminar proxies que rompen OpenAI en algunas instalaciones
 os.environ.pop("HTTP_PROXY", None)
 os.environ.pop("HTTPS_PROXY", None)
 
@@ -15,7 +15,10 @@ VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
-print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)
+print("✅ TELEGRAM_TOKEN:", TELEGRAM_TOKEN[:10] if TELEGRAM_TOKEN else "❌ VACÍO")
+print("✅ OPENAI_KEY:", OPENAI_KEY[:10] if OPENAI_KEY else "❌ VACÍO")
+print("✅ ELEVEN_KEY:", ELEVEN_KEY[:10] if ELEVEN_KEY else "❌ VACÍO")
+print("✅ VOICE_ID:", VOICE_ID if VOICE_ID else "❌ VACÍO")
 
 # Cliente de OpenAI
 client = OpenAI(api_key=OPENAI_KEY)
@@ -25,8 +28,13 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
 # Cargar personalidad
-with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
-    personality = json.load(f)
+try:
+    with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
+        personality = json.load(f)
+        print(f"✅ Personalidad cargada con {len(personality)} mensajes")
+except Exception as e:
+    print("❌ Error cargando personalidad:", str(e))
+    personality = []
 
 @app.route("/webhook", methods=["GET", "POST"])
 def telegram_webhook():
@@ -41,12 +49,16 @@ def telegram_webhook():
     chat_id = message.get("chat", {}).get("id")
 
     if not chat_id or not text:
+        print("⚠️ No se encontró chat_id o texto.")
         return "ok"
 
     use_voice = text.strip().endswith("xx")
     user_input = text.strip().rstrip("x").rstrip()
 
     prompt = personality + [{"role": "user", "content": user_input}]
+    print("🧠 Prompt enviado:")
+    for m in prompt:
+        print(f"{m['role']}: {m['content'][:80]}...")
 
     try:
         completion = client.chat.completions.create(
