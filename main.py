@@ -3,24 +3,28 @@ import json
 import logging
 from flask import Flask, request
 import requests
-from openai import OpenAI  # Nuevo cliente OpenAI
+from openai import OpenAI
 
+# Variables de entorno
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
-client = OpenAI(api_key=OPENAI_KEY)  # ✅ correcto para v1.23.2+
+print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug
 
+# Cliente OpenAI sin 'proxies'
+client = OpenAI(api_key=OPENAI_KEY)
+
+# Flask setup
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
-# Cargar dataset local
+# Cargar personalidad
 with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
     personality = json.load(f)
 
-# Webhook con soporte GET y POST para debug
+# Webhook
 @app.route("/webhook", methods=["GET", "POST"])
 def telegram_webhook():
     print("✅ Webhook recibido:", request.method)
@@ -41,12 +45,12 @@ def telegram_webhook():
 
     prompt = personality + [{"role": "user", "content": user_input}]
 
-    completion = client.chat.completions.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=prompt,
-        temperature=0.8,
+        temperature=0.8
     )
-    reply = completion.choices[0].message.content
+    reply = response.choices[0].message.content
 
     if use_voice:
         voice_path = generate_audio(reply)
