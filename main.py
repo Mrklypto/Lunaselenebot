@@ -11,13 +11,10 @@ VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
-# Establecer la API Key globalmente para OpenAI
-os.environ["OPENAI_API_KEY"] = OPENAI_KEY
-
 print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug
 
-# Cliente de OpenAI
-client = OpenAI()
+# Cliente OpenAI sin 'proxies'
+client = OpenAI(api_key=OPENAI_KEY)
 
 # Flask setup
 app = Flask(__name__)
