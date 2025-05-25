@@ -5,23 +5,26 @@ from flask import Flask, request
 import requests
 from openai import OpenAI
 
-# Cargar claves de entorno
+# Variables de entorno
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
+OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
-# Inicializar cliente OpenAI
-client = OpenAI()
+print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug
 
+# Cliente de OpenAI
+client = OpenAI(api_key=OPENAI_KEY)
+
+# Flask setup
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
-# Cargar personalidad desde archivo local
+# Cargar personalidad
 with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
     personality = json.load(f)
 
-# Webhook que acepta POST y GET para debug
+# Webhook
 @app.route("/webhook", methods=["GET", "POST"])
 def telegram_webhook():
     print("✅ Webhook recibido:", request.method)
@@ -45,7 +48,7 @@ def telegram_webhook():
     response = client.chat.completions.create(
         model="gpt-4",
         messages=prompt,
-        temperature=0.8,
+        temperature=0.8
     )
     reply = response.choices[0].message.content
 
