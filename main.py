@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+import uuid
 from flask import Flask, request
 import requests
 from openai import OpenAI
@@ -12,6 +13,10 @@ ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
 print("TELEGRAM_TOKEN:", TELEGRAM_TOKEN)  # Debug
+
+# Verifica que todas las claves estén definidas
+if not all([TELEGRAM_TOKEN, VOICE_ID, ELEVEN_KEY, OPENAI_KEY]):
+    raise EnvironmentError("❌ Faltan una o más variables de entorno. Verifica tu configuración.")
 
 # Cliente de OpenAI
 client = OpenAI(api_key=OPENAI_KEY)
@@ -45,12 +50,16 @@ def telegram_webhook():
 
     prompt = personality + [{"role": "user", "content": user_input}]
 
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=prompt,
-        temperature=0.8
-    )
-    reply = response.choices[0].message.content
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=prompt,
+            temperature=0.8
+        )
+        reply = response.choices[0].message.content
+    except Exception as e:
+        logging.error(f"Error con OpenAI: {e}")
+        reply = "Lo siento, hubo un problema generando la respuesta."
 
     if use_voice:
         voice_path = generate_audio(reply)
@@ -73,7 +82,7 @@ def generate_audio(text):
     }
 
     response = requests.post(url, headers=headers, json=payload)
-    path = "output.mp3"
+    path = f"{uuid.uuid4()}.mp3"
     with open(path, "wb") as f:
         f.write(response.content)
     return path
