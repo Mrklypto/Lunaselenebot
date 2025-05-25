@@ -50,11 +50,10 @@ def telegram_webhook():
 
     try:
         completion = client.chat.completions.create(
-    model="gpt-4o",
-    messages=prompt,
-    temperature=0.8
-)
-
+            model="gpt-3.5-turbo",
+            messages=prompt,
+            temperature=0.8
+        )
         reply = completion.choices[0].message.content
 
         if use_voice:
