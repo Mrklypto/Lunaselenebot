@@ -1,4 +1,3 @@
-
 import os
 import json
 import logging
@@ -6,17 +5,14 @@ from flask import Flask, request
 import requests
 import openai
 
-# Configurar claves
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Flask setup
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
-# Cargar personalidad
 try:
     with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
         personality = json.load(f)
@@ -27,8 +23,6 @@ except Exception as e:
 
 @app.route(f"/{TELEGRAM_TOKEN}", methods=["POST"])
 def telegram_webhook():
-    logging.info(f"✅ Webhook recibido: {request.method}")
-
     data = request.json
     message = data.get("message", {})
     text = message.get("text", "")
@@ -75,7 +69,6 @@ def generate_audio(text):
             "similarity_boost": 0.75
         }
     }
-
     response = requests.post(url, headers=headers, json=payload)
     path = "output.mp3"
     with open(path, "wb") as f:
@@ -99,4 +92,5 @@ def home():
     return "LunaBot Running"
 
 if __name__ == "__main__":
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
