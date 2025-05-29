@@ -24,20 +24,46 @@ except Exception as e:
     print("❌ Error cargando personalidad:", str(e))
     personality = []
 
+def update_user_history(user_id, new_message, max_messages=10):
+    history_dir = "user_histories"
+    os.makedirs(history_dir, exist_ok=True)
+    history_path = os.path.join(history_dir, f"{user_id}.json")
+
+    if os.path.exists(history_path):
+        with open(history_path, "r", encoding="utf-8") as f:
+            history = json.load(f)
+    else:
+        history = []
+
+    history.append(new_message)
+    history = history[-max_messages:]
+
+    with open(history_path, "w", encoding="utf-8") as f:
+        json.dump(history, f, ensure_ascii=False, indent=2)
+
+    return history
+
 @app.route(f"/{TELEGRAM_TOKEN}", methods=["POST"])
 def telegram_webhook():
     data = request.json
     message = data.get("message", {})
     text = message.get("text", "")
     chat_id = message.get("chat", {}).get("id")
+    user_id = message.get("from", {}).get("id")
 
-    if not chat_id or not text:
+    if not chat_id or not text or not user_id:
         return "ok"
 
     use_voice = text.strip().endswith("xx")
     user_input = text.strip().rstrip("x").rstrip()
 
-    prompt = personality + [{"role": "user", "content": user_input}]
+    # Actualizar historial del usuario
+    user_message = {"role": "user", "content": user_input}
+    history = update_user_history(user_id, user_message)
+
+    # Construir prompt con personalidad + historial
+    prompt = personality + history
+
     try:
         completion = openai.chat.completions.create(
             model="gpt-4",
@@ -45,6 +71,9 @@ def telegram_webhook():
             temperature=0.8
         )
         reply = completion.choices[0].message.content
+
+        # Guardar respuesta en historial
+        update_user_history(user_id, {"role": "assistant", "content": reply})
 
         if use_voice:
             voice_path = generate_audio(reply)
