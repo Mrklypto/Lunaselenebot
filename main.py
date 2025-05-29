@@ -5,8 +5,6 @@ import logging
 from flask import Flask, request
 import requests
 import openai
-from elevenlabs import generate, save
-from elevenlabs.client import ElevenLabs
 
 # Configurar claves
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
