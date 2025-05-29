@@ -58,17 +58,19 @@ def telegram_webhook():
     return "ok"
 
 def generate_audio(text):
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}/stream"
     headers = {
         "xi-api-key": ELEVEN_KEY,
         "Content-Type": "application/json"
     }
     payload = {
         "text": text,
-        "model_id": "eleven_monolingual_v1",
+        "model_id": "eleven_turbo_v2.5",
         "voice_settings": {
-            "stability": 0.5,
-            "similarity_boost": 0.75
+            "stability": 0.55,
+            "similarity_boost": 0.99,
+            "style": "soft",
+            "optimize_streaming_latency": 1
         }
     }
     response = requests.post(url, headers=headers, json=payload)
