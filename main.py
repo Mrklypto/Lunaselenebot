@@ -1,27 +1,18 @@
+
 import os
 import json
 import logging
 from flask import Flask, request
 import requests
-from openai import OpenAI
+import openai
+from elevenlabs import generate, save
+from elevenlabs.client import ElevenLabs
 
-# 🔥 Eliminar proxies que rompen OpenAI en algunas instalaciones
-os.environ.pop("HTTP_PROXY", None)
-os.environ.pop("HTTPS_PROXY", None)
-
-# Variables de entorno
+# Configurar claves
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
-OPENAI_KEY = os.getenv("OPENAI_API_KEY")
-
-print("✅ TELEGRAM_TOKEN:", TELEGRAM_TOKEN[:10] if TELEGRAM_TOKEN else "❌ VACÍO")
-print("✅ OPENAI_KEY:", OPENAI_KEY[:10] if OPENAI_KEY else "❌ VACÍO")
-print("✅ ELEVEN_KEY:", ELEVEN_KEY[:10] if ELEVEN_KEY else "❌ VACÍO")
-print("✅ VOICE_ID:", VOICE_ID if VOICE_ID else "❌ VACÍO")
-
-# Cliente de OpenAI
-client = OpenAI(api_key=OPENAI_KEY)
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Flask setup
 app = Flask(__name__)
@@ -36,12 +27,9 @@ except Exception as e:
     print("❌ Error cargando personalidad:", str(e))
     personality = []
 
-@app.route("/webhook", methods=["GET", "POST"])
+@app.route(f"/{TELEGRAM_TOKEN}", methods=["POST"])
 def telegram_webhook():
     logging.info(f"✅ Webhook recibido: {request.method}")
-
-    if request.method == "GET":
-        return "Webhook activo"
 
     data = request.json
     message = data.get("message", {})
@@ -49,20 +37,15 @@ def telegram_webhook():
     chat_id = message.get("chat", {}).get("id")
 
     if not chat_id or not text:
-        print("⚠️ No se encontró chat_id o texto.")
         return "ok"
 
     use_voice = text.strip().endswith("xx")
     user_input = text.strip().rstrip("x").rstrip()
 
     prompt = personality + [{"role": "user", "content": user_input}]
-    print("🧠 Prompt enviado:")
-    for m in prompt:
-        print(f"{m['role']}: {m['content'][:80]}...")
-
     try:
-        completion = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+        completion = openai.ChatCompletion.create(
+            model="gpt-4",
             messages=prompt,
             temperature=0.8
         )
@@ -77,7 +60,7 @@ def telegram_webhook():
     except Exception as e:
         logging.exception("❌ Error al generar respuesta:")
         send_message(chat_id, "Lo siento, hubo un error generando la respuesta.")
-    
+
     return "ok"
 
 def generate_audio(text):
@@ -118,4 +101,4 @@ def home():
     return "LunaBot Running"
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run()
