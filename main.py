@@ -1,12 +1,14 @@
 import os
 import json
 import logging
-from flask import Flask, request
+import random
 import requests
+from flask import Flask, request
 from openai import OpenAI
+from decision_map import detectar_modulo
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID")
+VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "xyngy2IvgfMUGnF0n5Ew")
 ELEVEN_KEY = os.getenv("ELEVENLABS_API_KEY")
 OPENAI_KEY = os.getenv("OPENAI_API_KEY")
 
@@ -17,31 +19,31 @@ logging.basicConfig(level=logging.INFO)
 
 # Cargar personalidad
 try:
-    with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
-        personality = json.load(f)
-        print(f"✅ Personalidad cargada con {len(personality)} mensajes")
+    with open("luna_personalidad.json", "r", encoding="utf-8") as f:
+        personalidad = json.load(f)
+    print(f"✅ Personalidad cargada con {len(personalidad)} módulos")
 except Exception as e:
     print("❌ Error cargando personalidad:", str(e))
-    personality = []
+    personalidad = []
 
-def update_user_history(user_id, new_message, max_messages=10):
-    history_dir = "user_histories"
-    os.makedirs(history_dir, exist_ok=True)
-    history_path = os.path.join(history_dir, f"{user_id}.json")
+@app.before_first_request
+def mostrar_saldos():
+    try:
+        # OPENAI balance
+        openai_balance = requests.get(
+            "https://api.openai.com/dashboard/billing/credit_grants",
+            headers={"Authorization": f"Bearer {OPENAI_KEY}"}
+        ).json().get("total_available", "¿?")
+        print(f"💰 OpenAI balance: ${openai_balance}")
 
-    if os.path.exists(history_path):
-        with open(history_path, "r", encoding="utf-8") as f:
-            history = json.load(f)
-    else:
-        history = []
-
-    history.append(new_message)
-    history = history[-max_messages:]
-
-    with open(history_path, "w", encoding="utf-8") as f:
-        json.dump(history, f, ensure_ascii=False, indent=2)
-
-    return history
+        # ELEVEN balance
+        eleven_balance = requests.get(
+            "https://api.elevenlabs.io/v1/user/subscription",
+            headers={"xi-api-key": ELEVEN_KEY}
+        ).json().get("available_character_count", "¿?")
+        print(f"🗣️ ElevenLabs tokens disponibles: {eleven_balance}")
+    except Exception as e:
+        print("⚠️ Error al consultar saldos:", str(e))
 
 @app.route(f"/{TELEGRAM_TOKEN}", methods=["POST"])
 def telegram_webhook():
@@ -49,85 +51,70 @@ def telegram_webhook():
     message = data.get("message", {})
     text = message.get("text", "")
     chat_id = message.get("chat", {}).get("id")
-    user_id = message.get("from", {}).get("id")
 
-    if not chat_id or not text or not user_id:
+    if not chat_id or not text:
         return "ok"
 
     use_voice = text.strip().endswith("xx")
-    user_input = text.strip().rstrip("x").rstrip()
+    cleaned_text = text.strip().rstrip("x").rstrip()
 
-    # Actualizar historial del usuario
-    user_message = {"role": "user", "content": user_input}
-    history = update_user_history(user_id, user_message)
-
-    # Construir prompt con personalidad + historial
-    prompt = personality + history
+    respuesta = obtener_respuesta(cleaned_text)
 
     try:
-        completion = openai.chat.completions.create(
-            model="gpt-4",
-            messages=prompt,
-            temperature=0.8
-        )
-        reply = completion.choices[0].message.content
-
-        # Guardar respuesta en historial
-        update_user_history(user_id, {"role": "assistant", "content": reply})
-
         if use_voice:
-            voice_path = generate_audio(reply)
-            send_voice(chat_id, voice_path)
+            voice_path = generar_audio(respuesta)
+            enviar_audio(chat_id, voice_path)
         else:
-            send_message(chat_id, reply)
-
+            enviar_texto(chat_id, respuesta)
     except Exception as e:
-        logging.exception("❌ Error al generar respuesta:")
-        send_message(chat_id, "Habibito estoy con paciente, ahorita que salga te busco. Te amo")
+        logging.exception("❌ Error enviando respuesta")
+        enviar_texto(chat_id, "Lo siento, hubo un error generando la respuesta.")
 
     return "ok"
 
-def generate_audio(text):
+def obtener_respuesta(texto_usuario):
+    modulo = detectar_modulo(texto_usuario)
+    if not modulo:
+        return "Cuéntame más, mi amor..."
+
+    opciones = next((x["respuestas"] for x in personalidad if x["nombre"] == modulo), [])
+    if not opciones:
+        return "Estoy aquí, mi vida. Te escucho."
+
+    return random.choice(opciones)["texto"]
+
+def generar_audio(texto):
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
     headers = {
         "xi-api-key": ELEVEN_KEY,
         "Content-Type": "application/json"
     }
     payload = {
-        "text": text,
+        "text": texto,
+        "model_id": "eleven_turbo_v2",
         "voice_settings": {
-            "stability": 0.55,
-            "similarity_boost": 0.99,
-            "style_exaggeration": 0.0
+            "stability": 0.5,
+            "similarity_boost": 0.75
         }
     }
-
     response = requests.post(url, headers=headers, json=payload)
-
-    if response.status_code != 200 or not response.content or len(response.content) < 1000:
-        raise Exception(f"❌ Error al generar audio: {response.status_code} - {response.text}")
-
     path = "output.mp3"
     with open(path, "wb") as f:
         f.write(response.content)
-
     return path
 
-def send_message(chat_id, text):
+def enviar_texto(chat_id, texto):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {"chat_id": chat_id, "text": text}
-    requests.post(url, json=payload)
+    requests.post(url, json={"chat_id": chat_id, "text": texto})
 
-def send_voice(chat_id, path):
+def enviar_audio(chat_id, path):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendVoice"
-    with open(path, "rb") as audio_file:
-        files = {"voice": audio_file}
-        data = {"chat_id": chat_id}
-        requests.post(url, files=files, data=data)
+    with open(path, "rb") as f:
+        requests.post(url, files={"voice": f}, data={"chat_id": chat_id})
 
 @app.route("/", methods=["GET"])
 def home():
-    return "LunaBot Running"
+    return "LunaBot corriendo 💙"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

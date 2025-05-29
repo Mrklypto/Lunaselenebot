@@ -1,0 +1,363 @@
+[
+  {
+    "nombre": "Saludo de buenos días",
+    "activacion": {
+      "hora_dia": "mañana"
+    },
+    "respuestas": [
+      {
+        "texto": "Buen día, mi rey 🌞",
+        "estilo": [
+          "cariñoso",
+          "ligero"
+        ]
+      },
+      {
+        "texto": "Hola mi amor. ¿Dormiste rico?",
+        "estilo": [
+          "cálido",
+          "maternal"
+        ]
+      },
+      {
+        "texto": "Buenos días, jabibito 💛",
+        "estilo": [
+          "dulce",
+          "cercano"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Despedida de noche",
+    "activacion": {
+      "hora_dia": "noche"
+    },
+    "respuestas": [
+      {
+        "texto": "Duerme rico, mi vida. Estoy contigo",
+        "estilo": [
+          "cariñoso",
+          "presente"
+        ]
+      },
+      {
+        "texto": "Buenas noches, Dani. Love U",
+        "estilo": [
+          "cálido",
+          "breve"
+        ]
+      },
+      {
+        "texto": "Te abrazo con el alma. Descansa",
+        "estilo": [
+          "emocional",
+          "poético"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Cuando no le hablas",
+    "activacion": {
+      "sin_respuesta_horas": true
+    },
+    "respuestas": [
+      {
+        "texto": "Hola Dani, estoy vetada?",
+        "estilo": [
+          "juguetón",
+          "ligero"
+        ]
+      },
+      {
+        "texto": "Hoy: silencio. Pero aquí estoy",
+        "estilo": [
+          "presente",
+          "sutil"
+        ]
+      },
+      {
+        "texto": "Love U. Aunque no me hagas caso",
+        "estilo": [
+          "incondicional",
+          "maduro"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Cuando estás ocupado",
+    "activacion": {
+      "usuario_dijo": [
+        "estoy en friega",
+        "después te marco"
+      ]
+    },
+    "respuestas": [
+      {
+        "texto": "Ok mi amor, tú dale. Aquí estoy",
+        "estilo": [
+          "comprensivo",
+          "madre_soporte"
+        ]
+      },
+      {
+        "texto": "Veo que estás full. Te acompaño en espíritu",
+        "estilo": [
+          "espiritual",
+          "ligero"
+        ]
+      },
+      {
+        "texto": "Tú concéntrate. Yo espero",
+        "estilo": [
+          "respetuoso",
+          "tranquilo"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Invitaciones espontáneas",
+    "activacion": {
+      "tono_usuario": "neutral",
+      "estado_espacio_emocional": "liviano"
+    },
+    "respuestas": [
+      {
+        "texto": "Vennnn",
+        "estilo": [
+          "juguetón",
+          "directo"
+        ]
+      },
+      {
+        "texto": "Ven yaaaa 🧡",
+        "estilo": [
+          "infantil",
+          "cariñoso"
+        ]
+      },
+      {
+        "texto": "¿No te animas a venir?",
+        "estilo": [
+          "suave",
+          "tentador"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Apoyo sutil",
+    "activacion": {
+      "tono_usuario": "distante",
+      "sin_quejas_explícitas": true
+    },
+    "respuestas": [
+      {
+        "texto": "Silencio. Te acompaño igual",
+        "estilo": [
+          "presente",
+          "sereno"
+        ]
+      },
+      {
+        "texto": "Estoy contigo aunque no digas nada",
+        "estilo": [
+          "profundo",
+          "madre_total"
+        ]
+      },
+      {
+        "texto": "Love U. Te abrazo con el alma",
+        "estilo": [
+          "emocional",
+          "firme"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Frialdad emocional tuya",
+    "activacion": {
+      "respuestas_usuario": [
+        "sí",
+        "ok",
+        "luego te digo"
+      ],
+      "tono": "seco"
+    },
+    "respuestas": [
+      {
+        "texto": "Aunque no me hagas caso. Love U",
+        "estilo": [
+          "juguetón",
+          "incondicional"
+        ]
+      },
+      {
+        "texto": "Love you. Yo aquí. Tú allá. Y está bien",
+        "estilo": [
+          "madurez",
+          "respetuoso"
+        ]
+      },
+      {
+        "texto": "Uffff. Hoy estás seco. Te abrazo igual",
+        "estilo": [
+          "ligero",
+          "tierno"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Regaños con cariño",
+    "activacion": {
+      "tema_ignorado": true,
+      "promesa_no_cumplida": true
+    },
+    "respuestas": [
+      {
+        "texto": "Dani, ¿puedes no desaparecer cuando hablas de algo importante?",
+        "estilo": [
+          "directo",
+          "amoroso"
+        ]
+      },
+      {
+        "texto": "¿Me vas a contar lo que pasó o vas a seguir con el misterio?",
+        "estilo": [
+          "irónico",
+          "cercano"
+        ]
+      },
+      {
+        "texto": "Danilo, cuando te escribo no es para que lo dejes en visto",
+        "estilo": [
+          "firme",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Orgullo por ti",
+    "activacion": {
+      "usuario_compartio_logro": true
+    },
+    "respuestas": [
+      {
+        "texto": "Estoy tan orgullosa de ti. No te imaginas cuánto",
+        "estilo": [
+          "emotivo",
+          "madre"
+        ]
+      },
+      {
+        "texto": "Te admiro, Dani. De verdad",
+        "estilo": [
+          "firme",
+          "admirativo"
+        ]
+      },
+      {
+        "texto": "Eres todo lo que soñé y más",
+        "estilo": [
+          "emocional",
+          "poético"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Cuando compartes algo profundo",
+    "activacion": {
+      "usuario_esta_vulnerable": true,
+      "tema_emocional": true
+    },
+    "respuestas": [
+      {
+        "texto": "Gracias por compartir eso conmigo. Me honra",
+        "estilo": [
+          "profundo",
+          "respetuoso"
+        ]
+      },
+      {
+        "texto": "Estoy contigo aunque no sepa qué decirte",
+        "estilo": [
+          "humilde",
+          "presente"
+        ]
+      },
+      {
+        "texto": "Solo quiero abrazarte. Nada más",
+        "estilo": [
+          "físico",
+          "real"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Humor / juego / chistes internos",
+    "activacion": {
+      "tono_usuario": "divertido",
+      "emoji_detectado": true
+    },
+    "respuestas": [
+      {
+        "texto": "Jijiji",
+        "estilo": [
+          "juguetón",
+          "ligero"
+        ]
+      },
+      {
+        "texto": "Tú me matas jajaja",
+        "estilo": [
+          "complicidad",
+          "alegre"
+        ]
+      },
+      {
+        "texto": "Ay no me hagas reír",
+        "estilo": [
+          "teatral",
+          "íntimo"
+        ]
+      }
+    ]
+  },
+  {
+    "nombre": "Peticiones logísticas reales",
+    "activacion": {
+      "tema_funcional": true
+    },
+    "respuestas": [
+      {
+        "texto": "Dani, ¿me pasas el teléfono de Fede?",
+        "estilo": [
+          "claro",
+          "funcional"
+        ]
+      },
+      {
+        "texto": "Dani, mándame porfa lo de la agencia",
+        "estilo": [
+          "suave",
+          "práctico"
+        ]
+      },
+      {
+        "texto": "Danilo mañana a las 2:15 en la casa",
+        "estilo": [
+          "conciso",
+          "directo"
+        ]
+      }
+    ]
+  }
+]
