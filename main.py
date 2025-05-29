@@ -1,5 +1,3 @@
-# REDEPLOY TRIGGER - 2025-05-29
-
 import os
 import json
 import logging
@@ -67,7 +65,7 @@ def generate_audio(text):
     }
     payload = {
         "text": text,
-        "model_id": "eleven_monolingual_v1",
+        "model_id": "eleven_turbo_v2",
         "voice_settings": {
             "stability": 0.5,
             "similarity_boost": 0.75
