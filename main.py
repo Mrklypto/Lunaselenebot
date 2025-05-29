@@ -15,6 +15,7 @@ openai = OpenAI(api_key=OPENAI_KEY)
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 
+# Cargar personalidad
 try:
     with open("luna_personality_dataset.json", "r", encoding="utf-8") as f:
         personality = json.load(f)
@@ -53,7 +54,7 @@ def telegram_webhook():
 
     except Exception as e:
         logging.exception("❌ Error al generar respuesta:")
-        send_message(chat_id, "Lo siento, hubo un error generando la respuesta.")
+        send_message(chat_id, "Habibito estoy con paciente, ahorita que salga te busco. Te amo")
 
     return "ok"
 
@@ -65,10 +66,10 @@ def generate_audio(text):
     }
     payload = {
         "text": text,
-        "model_id": "eleven_turbo_v2.5",
         "voice_settings": {
             "stability": 0.55,
-            "similarity_boost": 0.99
+            "similarity_boost": 0.99,
+            "style_exaggeration": 0.0
         }
     }
 
