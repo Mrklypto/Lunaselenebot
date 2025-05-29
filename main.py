@@ -58,7 +58,7 @@ def telegram_webhook():
     return "ok"
 
 def generate_audio(text):
-    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}/stream"
+    url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
     headers = {
         "xi-api-key": ELEVEN_KEY,
         "Content-Type": "application/json"
@@ -68,15 +68,19 @@ def generate_audio(text):
         "model_id": "eleven_turbo_v2.5",
         "voice_settings": {
             "stability": 0.55,
-            "similarity_boost": 0.99,
-            "style": "soft",
-            "optimize_streaming_latency": 1
+            "similarity_boost": 0.99
         }
     }
+
     response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code != 200 or not response.content or len(response.content) < 1000:
+        raise Exception(f"❌ Error al generar audio: {response.status_code} - {response.text}")
+
     path = "output.mp3"
     with open(path, "wb") as f:
         f.write(response.content)
+
     return path
 
 def send_message(chat_id, text):
