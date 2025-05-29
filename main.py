@@ -2,78 +2,77 @@
 import os
 import json
 import random
-import requests
+import logging
 from flask import Flask, request
-from elevenlabs import generate, play, save, set_api_key
+from elevenlabs import generate, save, Voice, VoiceSettings, play_audio, set_api_key
 from openai import OpenAI
+import requests
 
-# Inicializa Flask
+# Configuración básica
 app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
 
-# Carga la personalidad desde archivo
+# API Keys
+openai.api_key = os.getenv("OPENAI_API_KEY")
+set_api_key(os.getenv("ELEVENLABS_API_KEY"))
+
+# Cargar personalidad
 with open("luna_personalidad.json", "r", encoding="utf-8") as f:
     personalidad_luna = json.load(f)
+    logging.info(f"✅ Personalidad cargada con {len(personalidad_luna)} módulos")
 
-# Configura ElevenLabs
-ELEVEN_API_KEY = os.environ.get("ELEVENLABS_API_KEY")
-VOICE_ID = os.environ.get("ELEVENLABS_VOICE_ID", "")
-set_api_key(ELEVEN_API_KEY)
+def elegir_respuesta(modulo):
+    for item in personalidad_luna:
+        if item["nombre"] == modulo:
+            return random.choice(item["respuestas"])
+    return "No entendí eso."
 
-# Configura OpenAI
-openai_api_key = os.environ.get("OPENAI_API_KEY")
-client = OpenAI(api_key=openai_api_key)
+@app.route("/", methods=["GET"])
+def home():
+    return "LunaSeleneBot funcionando."
 
-# Función para obtener respuesta desde personalidad
-def obtener_respuesta_desde_personalidad(mensaje):
-    for modulo in personalidad_luna:
-        if modulo["nombre"].lower() in mensaje.lower():
-            return random.choice(modulo["respuestas"])
-    return None
-
-# Ruta para el bot de Telegram
-@app.route(f"/{os.environ.get('TELEGRAM_BOT_TOKEN')}", methods=["POST"])
-def telegram_webhook():
+@app.route(f"/{os.getenv('TELEGRAM_BOT_TOKEN')}", methods=["POST"])
+def webhook():
     data = request.json
-    chat_id = data["message"]["chat"]["id"]
-    texto = data["message"].get("text", "")
 
-    respuesta = obtener_respuesta_desde_personalidad(texto)
+    if "message" not in data:
+        return {"ok": True}
 
-    if not respuesta:
-        completion = client.chat.completions.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "Responde como Luna, amorosa y sabia."},
-                {"role": "user", "content": texto},
-            ],
-        )
-        respuesta = completion.choices[0].message.content
+    message = data["message"]
+    chat_id = message["chat"]["id"]
 
-    if texto.strip().endswith("xx"):
-        audio = generate(
-            text=respuesta,
-            voice=VOICE_ID,
-            model="eleven_turbo_v2"
-        )
-        save(audio, "respuesta.mp3")
-        with open("respuesta.mp3", "rb") as f:
-            requests.post(
-                f"https://api.telegram.org/bot{os.environ.get('TELEGRAM_BOT_TOKEN')}/sendVoice",
-                data={"chat_id": chat_id},
-                files={"voice": f},
+    # Mensaje de texto
+    if "text" in message:
+        user_input = message["text"]
+        logging.info(f"📩 Mensaje recibido: {user_input}")
+
+        if user_input.lower().endswith("xx"):
+            prompt = user_input[:-2].strip()
+            response_text = elegir_respuesta("Saludo de buenos días")  # ejemplo fijo
+            audio = generate(
+                text=response_text,
+                voice=Voice(
+                    voice_id=os.getenv("ELEVENLABS_VOICE_ID"),
+                    settings=VoiceSettings(stability=0.3, similarity_boost=0.75)
+                ),
+                model="eleven_turbo_v2"
             )
-    else:
-        requests.post(
-            f"https://api.telegram.org/bot{os.environ.get('TELEGRAM_BOT_TOKEN')}/sendMessage",
-            data={"chat_id": chat_id, "text": respuesta}
-        )
+            save(audio, "voz.mp3")
+            send_audio(chat_id, "voz.mp3")
+        else:
+            response_text = elegir_respuesta("Saludo de buenos días")  # ejemplo fijo
+            send_message(chat_id, response_text)
 
     return {"ok": True}
 
-# Ruta principal
-@app.route("/", methods=["GET"])
-def home():
-    return "Luna Selene Bot funcionando."
+def send_message(chat_id, text):
+    url = f"https://api.telegram.org/bot{os.getenv('TELEGRAM_BOT_TOKEN')}/sendMessage"
+    requests.post(url, json={"chat_id": chat_id, "text": text})
+
+def send_audio(chat_id, audio_path):
+    url = f"https://api.telegram.org/bot{os.getenv('TELEGRAM_BOT_TOKEN')}/sendAudio"
+    with open(audio_path, "rb") as f:
+        requests.post(url, files={"audio": f}, data={"chat_id": chat_id})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
