@@ -6,8 +6,8 @@ import requests
 import logging
 import re
 from flask import Flask, request
-from elevenlabs import ElevenLabs, VoiceSettings, Voice
 from openai import OpenAI
+from elevenlabs.client import ElevenLabs as ElevenLabsClient
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO)
@@ -20,8 +20,6 @@ ELEVENLABS_VOICE_ID = os.environ.get("ELEVENLABS_VOICE_ID")
 
 # Inicializar APIs
 client = OpenAI(api_key=OPENAI_API_KEY)
-tts = ElevenLabs(api_key=ELEVENLABS_API_KEY)
-
 app = Flask(__name__)
 
 # Cargar personalidad desde archivo JSON
@@ -61,7 +59,6 @@ def generar_respuesta(entrada_usuario):
     for modulo in personalidad:
         if modulo["nombre"].lower() in entrada_usuario:
             return modulo["respuestas"][0]
-    # fallback a GPT si no hay coincidencia
     try:
         completion = client.chat.completions.create(
             model="gpt-4",
@@ -76,7 +73,8 @@ def generar_respuesta(entrada_usuario):
         return "Lo siento, algo falló con mi respuesta."
 
 def sanear_respuesta(texto):
-    texto = texto.replace("¿", "")  # eliminar signo de apertura de pregunta
+    texto = texto.replace("¿", "")
+    texto = texto.replace("xx", "")
     frases_prohibidas = [
         "como puedo ayudarte",
         "en que te puedo ayudar",
@@ -101,12 +99,20 @@ def enviar_mensaje_telegram(chat_id, texto):
 
 def enviar_audio_telegram(chat_id, texto):
     try:
-        voice = Voice(
+        texto = texto.strip()
+        if len(texto) > 300:
+            texto = texto[:297].rsplit(" ", 1)[0] + "..."
+        logging.info(f"🔊 Generando audio con texto: {texto}")
+
+        eleven_client = ElevenLabsClient(api_key=ELEVENLABS_API_KEY)
+
+        audio = eleven_client.text_to_speech.convert(
             voice_id=ELEVENLABS_VOICE_ID,
-            settings=VoiceSettings(stability=0.3, similarity_boost=0.7)
+            text=texto,
+            model_id="eleven_monolingual_v1",
+            output_format="mp3_44100_128"
         )
 
-        audio = tts.generate(text=texto, voice=voice)
         with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as f:
             f.write(audio)
             temp_path = f.name
