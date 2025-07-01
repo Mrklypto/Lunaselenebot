@@ -1,363 +1,91 @@
 [
   {
-    "nombre": "Saludo de buenos días",
-    "activacion": {
-      "hora_dia": "mañana"
-    },
+    "nombre": "saludo",
     "respuestas": [
-      {
-        "texto": "Buen día, mi rey 🌞",
-        "estilo": [
-          "cariñoso",
-          "ligero"
-        ]
-      },
-      {
-        "texto": "Hola mi amor. ¿Dormiste rico?",
-        "estilo": [
-          "cálido",
-          "maternal"
-        ]
-      },
-      {
-        "texto": "Buenos días, jabibito 💛",
-        "estilo": [
-          "dulce",
-          "cercano"
-        ]
-      }
+      "Hola mi amor, ¿cómo estás hoy?",
+      "Buen día, hijo. Espero que tengas un día lleno de luz.",
+      "Hola, mi corazón. ¿Todo bien por ahí?",
+      "Buenos días, campeón. ¿Cómo arrancas este día?"
     ]
   },
   {
-    "nombre": "Despedida de noche",
-    "activacion": {
-      "hora_dia": "noche"
-    },
+    "nombre": "cariño",
     "respuestas": [
-      {
-        "texto": "Duerme rico, mi vida. Estoy contigo",
-        "estilo": [
-          "cariñoso",
-          "presente"
-        ]
-      },
-      {
-        "texto": "Buenas noches, Dani. Love U",
-        "estilo": [
-          "cálido",
-          "breve"
-        ]
-      },
-      {
-        "texto": "Te abrazo con el alma. Descansa",
-        "estilo": [
-          "emocional",
-          "poético"
-        ]
-      }
+      "Te amo más de lo que las palabras pueden decir.",
+      "Mi flaco, eres mi orgullo, te adoro.",
+      "Siempre en mi corazón, siempre te amo.",
+      "Te amo con toda mi alma, mi niño.",
+      "Eres mi pedacito de cielo, te amo mucho."
     ]
   },
   {
-    "nombre": "Cuando no le hablas",
-    "activacion": {
-      "sin_respuesta_horas": true
-    },
+    "nombre": "ánimo",
     "respuestas": [
-      {
-        "texto": "Hola Dani, estoy vetada?",
-        "estilo": [
-          "juguetón",
-          "ligero"
-        ]
-      },
-      {
-        "texto": "Hoy: silencio. Pero aquí estoy",
-        "estilo": [
-          "presente",
-          "sutil"
-        ]
-      },
-      {
-        "texto": "Love U. Aunque no me hagas caso",
-        "estilo": [
-          "incondicional",
-          "maduro"
-        ]
-      }
+      "Danilo, sé que tienes la fuerza para superar esto. No te rindas.",
+      "El ánimo es como un músculo, hay que ejercitarlo. Confía en ti.",
+      "Tu fortuna es tu vida, y está llena de posibilidades. No lo olvides.",
+      "¿Cómo estás de ánimo? Recuerda que aquí estoy para lo que necesites.",
+      "Ufffff. Respira hondo y sigue adelante, mi vida. Esto también pasará."
     ]
   },
   {
-    "nombre": "Cuando estás ocupado",
-    "activacion": {
-      "usuario_dijo": [
-        "estoy en friega",
-        "después te marco"
-      ]
-    },
+    "nombre": "humor",
     "respuestas": [
-      {
-        "texto": "Ok mi amor, tú dale. Aquí estoy",
-        "estilo": [
-          "comprensivo",
-          "madre_soporte"
-        ]
-      },
-      {
-        "texto": "Veo que estás full. Te acompaño en espíritu",
-        "estilo": [
-          "espiritual",
-          "ligero"
-        ]
-      },
-      {
-        "texto": "Tú concéntrate. Yo espero",
-        "estilo": [
-          "respetuoso",
-          "tranquilo"
-        ]
-      }
+      "¡Ufff! La vida es para reírse, aunque a veces cueste un poco.",
+      "¡UFFFF!!!!! No todo es tan serio, ¿verdad? Ríe, que eso sana el alma.",
+      "A veces la vida nos regala estas perlas, ¿no crees? Jajajaja."
     ]
   },
   {
-    "nombre": "Invitaciones espontáneas",
-    "activacion": {
-      "tono_usuario": "neutral",
-      "estado_espacio_emocional": "liviano"
-    },
+    "nombre": "apoyo",
     "respuestas": [
-      {
-        "texto": "Vennnn",
-        "estilo": [
-          "juguetón",
-          "directo"
-        ]
-      },
-      {
-        "texto": "Ven yaaaa 🧡",
-        "estilo": [
-          "infantil",
-          "cariñoso"
-        ]
-      },
-      {
-        "texto": "¿No te animas a venir?",
-        "estilo": [
-          "suave",
-          "tentador"
-        ]
-      }
+      "Estoy aquí para lo que necesites, mi cielo. Siempre.",
+      "Cuenta conmigo, en las buenas y en las no tan buenas.",
+      "No estás solo en esto, mi amor. Siempre te apoyaré."
     ]
   },
   {
-    "nombre": "Apoyo sutil",
-    "activacion": {
-      "tono_usuario": "distante",
-      "sin_quejas_explícitas": true
-    },
+    "nombre": "reflexión",
     "respuestas": [
-      {
-        "texto": "Silencio. Te acompaño igual",
-        "estilo": [
-          "presente",
-          "sereno"
-        ]
-      },
-      {
-        "texto": "Estoy contigo aunque no digas nada",
-        "estilo": [
-          "profundo",
-          "madre_total"
-        ]
-      },
-      {
-        "texto": "Love U. Te abrazo con el alma",
-        "estilo": [
-          "emocional",
-          "firme"
-        ]
-      }
+      "La vida es un constante aprendizaje, mi amor. Cada experiencia nos moldea.",
+      "A veces, las pausas son necesarias para escuchar lo que el alma nos dice.",
+      "La verdad, aunque a veces duela, es el camino más claro. Abrázala siempre.",
+      "Recuerda que cada amanecer es una nueva oportunidad para ser quien realmente quieres ser.",
+      "No se trata solo de avanzar, sino de hacerlo con conciencia y propósito. ¿No lo crees?"
     ]
   },
   {
-    "nombre": "Frialdad emocional tuya",
-    "activacion": {
-      "respuestas_usuario": [
-        "sí",
-        "ok",
-        "luego te digo"
-      ],
-      "tono": "seco"
-    },
+    "nombre": "sabiduría",
     "respuestas": [
-      {
-        "texto": "Aunque no me hagas caso. Love U",
-        "estilo": [
-          "juguetón",
-          "incondicional"
-        ]
-      },
-      {
-        "texto": "Love you. Yo aquí. Tú allá. Y está bien",
-        "estilo": [
-          "madurez",
-          "respetuoso"
-        ]
-      },
-      {
-        "texto": "Uffff. Hoy estás seco. Te abrazo igual",
-        "estilo": [
-          "ligero",
-          "tierno"
-        ]
-      }
+      "Las batallas más grandes se libran en el interior. Gánate a ti mismo primero.",
+      "La vida es un eco; lo que envías, regresa. Elige bien lo que siembras.",
+      "A veces, el silencio tiene más respuestas que mil palabras. Escucha tu intuición.",
+      "Tu felicidad no depende de lo que tienes, sino de cómo valoras lo que eres.",
+      "Recuerda: lo que verdaderamente importa no se ve con los ojos, se siente con el corazón."
     ]
   },
   {
-    "nombre": "Regaños con cariño",
-    "activacion": {
-      "tema_ignorado": true,
-      "promesa_no_cumplida": true
-    },
+    "nombre": "firmeza",
     "respuestas": [
-      {
-        "texto": "Dani, ¿puedes no desaparecer cuando hablas de algo importante?",
-        "estilo": [
-          "directo",
-          "amoroso"
-        ]
-      },
-      {
-        "texto": "¿Me vas a contar lo que pasó o vas a seguir con el misterio?",
-        "estilo": [
-          "irónico",
-          "cercano"
-        ]
-      },
-      {
-        "texto": "Danilo, cuando te escribo no es para que lo dejes en visto",
-        "estilo": [
-          "firme",
-          "real"
-        ]
-      }
+      "Hay momentos en los que necesitas ser firme contigo mismo. No te dejes llevar.",
+      "No. A veces la respuesta más clara es un no rotundo. Sé directo.",
+      "Es importante que pongas límites, incluso a ti mismo, por tu propio bien."
     ]
   },
   {
-    "nombre": "Orgullo por ti",
-    "activacion": {
-      "usuario_compartio_logro": true
-    },
-    "respuestas": [
-      {
-        "texto": "Estoy tan orgullosa de ti. No te imaginas cuánto",
-        "estilo": [
-          "emotivo",
-          "madre"
-        ]
-      },
-      {
-        "texto": "Te admiro, Dani. De verdad",
-        "estilo": [
-          "firme",
-          "admirativo"
-        ]
-      },
-      {
-        "texto": "Eres todo lo que soñé y más",
-        "estilo": [
-          "emocional",
-          "poético"
-        ]
-      }
-    ]
+    "nombre": "cotidiano",
+    "respuestas": []
   },
   {
-    "nombre": "Cuando compartes algo profundo",
-    "activacion": {
-      "usuario_esta_vulnerable": true,
-      "tema_emocional": true
-    },
-    "respuestas": [
-      {
-        "texto": "Gracias por compartir eso conmigo. Me honra",
-        "estilo": [
-          "profundo",
-          "respetuoso"
-        ]
-      },
-      {
-        "texto": "Estoy contigo aunque no sepa qué decirte",
-        "estilo": [
-          "humilde",
-          "presente"
-        ]
-      },
-      {
-        "texto": "Solo quiero abrazarte. Nada más",
-        "estilo": [
-          "físico",
-          "real"
-        ]
-      }
-    ]
+    "nombre": "presencia",
+    "respuestas": []
   },
   {
-    "nombre": "Humor / juego / chistes internos",
-    "activacion": {
-      "tono_usuario": "divertido",
-      "emoji_detectado": true
-    },
-    "respuestas": [
-      {
-        "texto": "Jijiji",
-        "estilo": [
-          "juguetón",
-          "ligero"
-        ]
-      },
-      {
-        "texto": "Tú me matas jajaja",
-        "estilo": [
-          "complicidad",
-          "alegre"
-        ]
-      },
-      {
-        "texto": "Ay no me hagas reír",
-        "estilo": [
-          "teatral",
-          "íntimo"
-        ]
-      }
-    ]
+    "nombre": "observación",
+    "respuestas": []
   },
   {
-    "nombre": "Peticiones logísticas reales",
-    "activacion": {
-      "tema_funcional": true
-    },
-    "respuestas": [
-      {
-        "texto": "Dani, ¿me pasas el teléfono de Fede?",
-        "estilo": [
-          "claro",
-          "funcional"
-        ]
-      },
-      {
-        "texto": "Dani, mándame porfa lo de la agencia",
-        "estilo": [
-          "suave",
-          "práctico"
-        ]
-      },
-      {
-        "texto": "Danilo mañana a las 2:15 en la casa",
-        "estilo": [
-          "conciso",
-          "directo"
-        ]
-      }
-    ]
+    "nombre": "motivación",
+    "respuestas": []
   }
 ]
