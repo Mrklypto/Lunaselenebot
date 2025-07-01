@@ -27,7 +27,7 @@ with open("luna_personalidad.json", "r", encoding="utf-8") as f:
     personalidad = json.load(f)
 logging.info(f"✅ Personalidad cargada con {len(personalidad)} módulos")
 
-@app.route(f"/{TELEGRAM_BOT_TOKEN}", methods=["POST"])
+@app.route("/webhook", methods=["POST"])
 def telegram_webhook():
     data = request.get_json()
     logging.info(f"📩 Mensaje recibido: {data}")
@@ -101,6 +101,14 @@ def enviar_audio_telegram(chat_id, texto):
     except Exception as e:
         logging.error(f"❌ Error enviando audio: {e}")
         enviar_mensaje_telegram(chat_id, "Hubo un error al generar el audio.")
+
+def set_telegram_webhook():
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/setWebhook"
+    data = {"url": "https://lunadelenebot.onrender.com/webhook"}
+    response = requests.post(url, json=data)
+    logging.info(f"🔗 Webhook set response: {response.json()}")
+
+set_telegram_webhook()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
