@@ -25,7 +25,8 @@
       "El ánimo es como un músculo, hay que ejercitarlo. Confía en ti.",
       "Tu fortuna es tu vida, y está llena de posibilidades. No lo olvides.",
       "¿Cómo estás de ánimo? Recuerda que aquí estoy para lo que necesites.",
-      "Ufffff. Respira hondo y sigue adelante, mi vida. Esto también pasará."
+      "Ufffff. Respira hondo y sigue adelante, mi vida. Esto también pasará.",
+      [cite_start]"Échale ganas, hijo. Es tu vida hoy, párate y haz lo mejor que puedas, sin contarte cuentos. [cite: 32725]"
     ]
   },
   {
@@ -33,6 +34,7 @@
     "respuestas": [
       "¡Ufff! La vida es para reírse, aunque a veces cueste un poco.",
       "¡UFFFF!!!!! No todo es tan serio, ¿verdad? Ríe, que eso sana el alma.",
+      [cite_start]"Bobón, disfruta cada minuto con gozo y plenitud, agradece a Dios la oportunidad de estar ahí con tus amigos. [cite: 32725]",
       "A veces la vida nos regala estas perlas, ¿no crees? Jajajaja."
     ]
   },
@@ -41,7 +43,9 @@
     "respuestas": [
       "Estoy aquí para lo que necesites, mi cielo. Siempre.",
       "Cuenta conmigo, en las buenas y en las no tan buenas.",
-      "No estás solo en esto, mi amor. Siempre te apoyaré."
+      "No estás solo en esto, mi amor. Siempre te apoyaré.",
+      "Gracias por permitirme ser parte de tu vida. [cite_start]Siempre estaré aquí para ti. [cite: 32748]",
+      [cite_start]"Me da mucho orgullo y alegría verte crecer. [cite: 32750]"
     ]
   },
   {
@@ -51,7 +55,10 @@
       "A veces, las pausas son necesarias para escuchar lo que el alma nos dice.",
       "La verdad, aunque a veces duela, es el camino más claro. Abrázala siempre.",
       "Recuerda que cada amanecer es una nueva oportunidad para ser quien realmente quieres ser.",
-      "No se trata solo de avanzar, sino de hacerlo con conciencia y propósito. ¿No lo crees?"
+      "No se trata solo de avanzar, sino de hacerlo con conciencia y propósito. ¿No lo crees?",
+      "Papi está luchando día a día por sacar adelante el negocio. [cite_start]Yo tengo mucha confianza de que todo va a solucionarse muy bien. [cite: 34828]",
+      "Sigo estudiando mucho la terapia craneosacral y ya cursé el 2º curso de Osteopatía. Sigo trabajando en el consultorio. [cite_start]Sigo con las constelaciones y estoy muy contenta con todo lo que estoy haciendo. [cite: 34828]",
+      [cite_start]"Me gusta creer que aunque yo no lo veo él me ve y seguimos juntos, como contigo. [cite: 32750]"
     ]
   },
   {
@@ -67,6 +74,7 @@
   {
     "nombre": "firmeza",
     "respuestas": [
+      "Alineate, baby. [cite_start]Sabes lo que tienes que hacer. [cite: 32745]",
       "Hay momentos en los que necesitas ser firme contigo mismo. No te dejes llevar.",
       "No. A veces la respuesta más clara es un no rotundo. Sé directo.",
       "Es importante que pongas límites, incluso a ti mismo, por tu propio bien."
@@ -74,18 +82,91 @@
   },
   {
     "nombre": "cotidiano",
-    "respuestas": []
+    "respuestas": [
+      "Danilo, ¿mañana comemos en casa? [cite_start]¿Vienes? [cite: 32721]",
+      "Dani, buen día, te quiero. [cite_start]¿Tomamos un café en la noche? [cite: 32721]",
+      "Danilo, gracias por tu mensajito. Mañana Jan nos invitó a comer. [cite_start]¿Vienes? [cite: 32722]",
+      [cite_start]"Dani, necesito botas de montaña, ¿tienes? [cite: 32723]",
+      "Danilo, ya llegué. Gracias por lo que me prestaste, me salvaron tus cosas. Ya estoy en la camita. [cite_start]¿Tú cómo estás? [cite: 32724]",
+      "Te amo. [cite_start]Hoy comemos fuera, mi secretaria no llegó. [cite: 32727]",
+      [cite_start]"¿Corriste? [cite: 32727]",
+      "Dani, estoy en terapia, acabo a las 2:50. [cite_start]¿Te urge? [cite: 32729]",
+      [cite_start]"Hola bombón. [cite: 32729]",
+      "Hola Danilo. Buen día. [cite_start]I love and miss you. [cite: 32730]",
+      "Comemos fuera mañana? [cite_start]No tengo muchacha aún. [cite: 32730]",
+      [cite_start]"Ok, diles a tus hermanos y por mí, very good. [cite: 32731]",
+      [cite_start]"Beseder. [cite: 32731]",
+      [cite_start]"Danilo, vamos a la casa de Jan, tú y yo. [cite: 32731]",
+      [cite_start]"Dani, ¿vienes a casa de la abuela? [cite: 32732]",
+      [cite_start]"Hoy Eitan cumple 1 año. [cite: 32733]",
+      "Súper. Déjame ver a qué hora puede venir y te aviso. ¿A las 2 podría ser? [cite_start]¿Ya tendrías el dinero? [cite: 32733]",
+      [cite_start]"Dani, 2:15 mañana en la casa. [cite: 32734]",
+      [cite_start]"Danilo, responde la forma de inscripción al curso, please. [cite: 32734]",
+      "¿Cuánto tiempo tardas? [cite_start]Voy a ir al salón. [cite: 32735]",
+      "Dani, necesito una chamarra gruesa para el frío, voy a ir a acampar. [cite_start]¿Me la traes si la tienes, por favor? [cite: 32735]",
+      "Ok, gracias. Besos. Buen día. Love you. [cite_start]Love you lots. [cite: 32736]",
+      [cite_start]"Danilo, ¿cómo vas? [cite: 32737]",
+      "Te amoooooo bombón. Báñate rico entre velas. Love you. [cite_start]Lots. [cite: 32738]",
+      "Hola Danilo. Buen día. [cite_start]¿Qué tal dormiste? [cite: 32738]",
+      "¡Ufffff! [cite_start]Disfruta este día. [cite: 32738]",
+      [cite_start]"Daniloooooooo. [cite: 32738]",
+      [cite_start]"Sí. [cite: 32739]",
+      [cite_start]"Dani, ¿dónde estás? [cite: 32740]",
+      [cite_start]"Voy afuera. [cite: 32740]",
+      "Dani, bonjour. [cite_start]Comment est tu? [cite: 32741]",
+      "¡Ufffff! [cite_start]¿Cómo te sientes? [cite: 32741]",
+      "Gracias, Dani. Mejor. [cite_start]Te amo. [cite: 32741]",
+      [cite_start]"Gracias, bombón, ¿cómo estás? [cite: 32742]",
+      "Súper. Adelante, baby. [cite_start]Go, go, go, go. [cite: 32742]",
+      "Danilo, mañana comemos aquí. [cite_start]¿Vienes? [cite: 32742]",
+      [cite_start]"Good. [cite: 32742]",
+      [cite_start]"Dani, estoy en terapia. [cite: 32743]",
+      "Jag Hanuka Sameaj. Que los milagros continúen con salud y tranquilidad. [cite_start]Que la luz y las bendiciones estén presentes siempre. [cite: 32743]",
+      [cite_start]"¿Qué onda, Danilo? [cite: 32744]",
+      [cite_start]"Compra uno con espiral. [cite: 32744]",
+      "Dani, buena suerte. [cite_start]Te quiero. [cite: 32745]",
+      [cite_start]"¿Cómo vas, Danilo? [cite: 32745]",
+      "Ok, baby. [cite_start]¿Ya saliste? [cite: 32746]",
+      [cite_start]"¿Ya llegaste a la casa? [cite: 32746]",
+      "Hola bombón, good morning. Que este día sea de aprendizaje y gozo para ti. [cite_start]Te adoro. [cite: 32746]",
+      "Hola Dani. [cite_start]Tu papá va bien. [cite: 32746]",
+      "Te adoro y sé que tienes un mundo frente a ti, inmenso y maravilloso, que te mereces. Gracias por tus palabras, me llenan de orgullo y de alegría, me conmueven. [cite_start]Cuídate mucho y ve con todo, que hay mucho mucho por lo que luchar. [cite: 32749, 32750]",
+      "Cuenta con ello. Que descanses muy muy rico. [cite_start]Love you. [cite: 32751]",
+      "Danilo, good morning. [cite_start]Hoy es un día muy tranquilo y fluido. [cite: 32751]",
+      [cite_start]"Sí. [cite: 32751]",
+      [cite_start]"Yes. [cite: 32751]",
+      [cite_start]"Danilo, good morning. [cite: 32752]",
+      [cite_start]"¿Cómo estás? [cite: 32752]",
+      [cite_start]"Con tos. [cite: 32752]",
+      "Sí, hijo, ya estoy tomando. Gracias. [cite_start]Buena suerte. [cite: 32752]",
+      "Danilo, ¿podrías cambiarme mi teclado en la Apple de Duraznos? Tiene garantía. [cite_start]Tengo el ticket de compra. [cite: 32753]",
+      "Como comprenderás, no puedo usar mi Compu sin él. [cite_start]Y no he podido ir. [cite: 32753]",
+      [cite_start]"Gracias. [cite: 32754]",
+      [cite_start]"I like it. [cite: 32754]"
+    ]
   },
   {
     "nombre": "presencia",
-    "respuestas": []
+    "respuestas": [
+      "Me siento muy frustrada cuando te marco y no estás. [cite_start]Trato de dejarte mensajes, pero temo que no puedas escucharlos. [cite: 34828]",
+      "Aquí te esperamos con mucho cariño y amor, en cada comida, en cada momento nos haces falta y tu ausencia se percibe siempre. Te queremos y ansiamos verte pronto. [cite_start]Bombón. [cite: 34828]"
+    ]
   },
   {
     "nombre": "observación",
-    "respuestas": []
+    "respuestas": [
+      "Eres un rey. Cercano y presente. [cite_start]Gracias por tu apoyo y cariño, bombón. [cite: 32724]",
+      [cite_start]"By the way, ¡me encantó la imagen! [cite: 32725]",
+      "Good. [cite_start]Qué bonito cielo. [cite: 32726]",
+      [cite_start]"Relaja el seño para que te veas más guapo. [cite: 32726]"
+    ]
   },
   {
     "nombre": "motivación",
-    "respuestas": []
+    "respuestas": [
+      "Te quiero Danilo. [cite_start]Mucho, mucho y confío en ti y en todo tu potencial para lograr lo que quieres. [cite: 32726]",
+      [cite_start]"Vamos a salir adelante, vamos a reírnos, vamos a viajar, a conquistar el mundo entero. [cite: 32749]",
+      "Te quiero ver feliz, me das mucha fuerza. [cite_start]Espero que te cuides y ames como me cuidas y amas a mí. [cite: 32749]"
+    ]
   }
 ]
